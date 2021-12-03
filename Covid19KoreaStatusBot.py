@@ -1,6 +1,5 @@
 import discord
 import asyncio
-import os
 from discord.ext import commands
 import urllib
 from urllib.request import URLError
@@ -20,7 +19,7 @@ bottoken = ""
 
 @client.event # Use these decorator to register an event.
 async def on_ready(): # on_ready() event : when the bot has finised logging in and setting things up
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("!코로나를 쳐보세요"))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Type !help or !도움말 for help"))
     print("New log in as {0.user}".format(client))
 
 @client.event
@@ -62,7 +61,7 @@ async def on_message(message): # on_message() event : when the bot has recieved 
 
         totalPeopletoInt = statNum[0].split(')')[-1].split(',')
         tpInt = ''.join(totalPeopletoInt)
-        lethatRate = round((int(statNum[3]) / int(tpInt)) * 100, 2)
+        lethatRate = round((int(''.join(''.join(statNum[3].split(',')).lstrip("'").rstrip("'"))) / int(tpInt)) * 100, 2)
         embed = discord.Embed(title="Covid-19 Virus Korea Status", description="",color=0x5CD1E5)
         embed.add_field(name="Data source : Ministry of Health and Welfare of Korea", value="http://ncov.mohw.go.kr/index.jsp", inline=False)
         embed.add_field(name="Latest data refred time",value="해당 자료는 " + latestupdateTime[0] + "월 " + latestupdateTime[1] + "일 "+latestupdateTime[2] +" 자료입니다.", inline=False)
@@ -75,8 +74,8 @@ async def on_message(message): # on_message() event : when the bot has recieved 
         embed.add_field(name="- 최신 브리핑 1 : " + briefTasks[0][0],value="Link : " + briefTasks[0][1],inline=False)
         embed.add_field(name="- 최신 브리핑 2 : " + briefTasks[1][0], value="Link : " + briefTasks[1][1], inline=False)
         embed.set_thumbnail(url="https://wikis.krsocsci.org/images/7/79/%EB%8C%80%ED%95%9C%EC%99%95%EA%B5%AD_%ED%83%9C%EA%B7%B9%EA%B8%B0.jpg")
-        embed.set_footer(text='by 설준서.',
-                                     icon_url='https://attach.s.op.gg/forum/20170922204322_434504.png')
+        embed.set_footer(text='Service provided by Hoplin.',
+                         icon_url='https://avatars2.githubusercontent.com/u/45956041?s=460&u=1caf3b112111cbd9849a2b95a88c3a8f3a15ecfa&v=4')
         await message.channel.send("Covid-19 Virus Korea Status", embed=embed)
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)
